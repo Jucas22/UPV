@@ -31,6 +31,43 @@ module EjP5 where
     selectEventPos list = [x | (x,y) <- zip list [0..], mod y 2 == 0]
 
     --Ejercicio 8:
-    ins :: [Int] -> [Int]
-    ins
+    ins :: Int -> [Int] -> [Int]
+    ins x [] = [x]
+    ins num (y:ys) --pg50
+        |y >= num = (num:y:ys)
+        |otherwise = y:(ins num ys) 
     iSort :: [Int] -> [Int]
+    iSort [] = []
+    iSort (y:ys) = ins y (iSort ys)
+
+    --Ejercicio 9:
+    doubleAll :: [Int] -> [Int]
+    doubleAll list = map (*2) list
+
+    --Ejercicio 10:
+    map' :: (a -> b) -> [a] -> [b]
+    map' _ [] = []
+    map' f (x:xs) = f x : map f xs
+
+    filter' :: (a -> Bool) -> [a] -> [a]
+    filter' _ [] = []
+    filter' p (x:xs)
+        | p x       = x : filter p xs
+        | otherwise = filter p xs
+    
+--Apartado 3:
+
+    type Person = String
+    type Book = String
+    type Database = [(Person,Book)]
+
+    --Libros que tiene una persona en concreto:
+    obtain :: Database -> Person -> [Book]
+    obtain dBase thisPerson = [book | (person,book) <- dBase, person == thisPerson]
+
+    --Ejercicio 11: Realizar un prestamo
+    borrow :: Database -> Book -> Person -> Database
+    borrow db b p = db ++ [(p, b)]
+
+    return' :: Database -> (Person, Book) -> Database
+    return' db t = [t' | t' <- db, t' /= t]
